@@ -1,27 +1,29 @@
-const clockEl = document.getElementById("clock");
-const metaEl = document.getElementById("clock-meta");
+document.documentElement.classList.add("js");
 
-function renderClock() {
-  const now = new Date();
-
-  const time = new Intl.DateTimeFormat(undefined, {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  }).format(now);
-
-  const date = new Intl.DateTimeFormat(undefined, {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }).format(now);
-
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Local timezone";
-
-  clockEl.textContent = time;
-  metaEl.textContent = `${date} - ${timezone}`;
+const yearEl = document.getElementById("year");
+if (yearEl) {
+  yearEl.textContent = String(new Date().getFullYear());
 }
 
-renderClock();
-setInterval(renderClock, 1000);
+const revealEls = document.querySelectorAll(".reveal");
+
+if ("IntersectionObserver" in window) {
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12 }
+  );
+
+  revealEls.forEach((el, i) => {
+    el.style.transitionDelay = `${Math.min(i * 55, 320)}ms`;
+    io.observe(el);
+  });
+} else {
+  revealEls.forEach((el) => el.classList.add("in"));
+}
