@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Brum - Reset Password</title>
+    <style>
+      :root {
+        --bg: #f3f4f6;
+        --card: #ffffff;
+        --text: #111827;
+        --muted: #6b7280;
+        --primary: #4f46e5;
+        --primary-hover: #4338ca;
+        --danger: #dc2626;
+        --ok: #059669;
+        --border: #e5e7eb;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: radial-gradient(1200px 600px at 10% -20%, #e0e7ff 0%, var(--bg) 50%);
+        color: var(--text);
+        display: grid;
+        place-items: center;
+        padding: 16px;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 460px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 18px 40px rgba(17, 24, 39, 0.08);
+      }
+
+      .title {
+        margin: 0 0 8px;
+        font-size: 28px;
+        line-height: 1.15;
+      }
+
+      .subtitle {
+        margin: 0 0 20px;
+        color: var(--muted);
+      }
+
+      .row {
+        margin-bottom: 14px;
+      }
+
+      label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        font-size: 15px;
+        outline: none;
+      }
+
+      input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.14);
+      }
+
+      .hint {
+        margin: 2px 0 0;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .msg {
+        margin: 12px 0;
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 14px;
+        display: none;
+      }
+
+      .msg.error {
+        display: block;
+        color: #7f1d1d;
+        background: #fee2e2;
+        border: 1px solid #fecaca;
+      }
+
+      .msg.ok {
+        display: block;
+        color: #064e3b;
+        background: #d1fae5;
+        border: 1px solid #a7f3d0;
+      }
+
+      button {
+        width: 100%;
+        border: 0;
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-size: 15px;
+        font-weight: 700;
+        color: #fff;
+        background: var(--primary);
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: var(--primary-hover);
+      }
+
+      button:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+
+      .small {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .deep-link {
+        margin-top: 12px;
+        text-align: center;
+        display: none;
+      }
+
+      .deep-link a {
+        color: var(--primary);
+        font-weight: 600;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1 class="title">Reset Password</h1>
+      <p class="subtitle">Set a new password for your Brum account.</p>
+
+      <div id="status" class="msg"></div>
+
+      <form id="reset-form" autocomplete="off">
+        <div class="row">
+          <label for="password">New password</label>
+          <input id="password" name="password" type="password" autocomplete="new-password" required />
+          <p class="hint">Minimum 8 chars, with uppercase, lowercase and number.</p>
+        </div>
+
+        <div class="row">
+          <label for="confirmPassword">Confirm password</label>
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            autocomplete="new-password"
+            required
+          />
+        </div>
+
+        <button id="submit" type="submit" disabled>Update Password</button>
+      </form>
+
+      <p class="small">This page only works when opened from the reset email link.</p>
+      <div id="deep-link" class="deep-link">
+        <a href="mobile://login">Open Brum App</a>
+      </div>
+    </main>
+
+    <script src="./config.js"></script>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
