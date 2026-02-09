@@ -6,6 +6,7 @@ const statusEl = document.getElementById("status");
 const deepLinkEl = document.getElementById("deep-link");
 const passwordEl = document.getElementById("password");
 const confirmEl = document.getElementById("confirmPassword");
+const helperEl = document.getElementById("reset-note");
 
 function showStatus(type, message) {
   statusEl.className = `msg ${type}`;
@@ -15,6 +16,17 @@ function showStatus(type, message) {
 function clearStatus() {
   statusEl.className = "msg";
   statusEl.textContent = "";
+}
+
+function setFormVisible(visible) {
+  formEl.style.display = visible ? "block" : "none";
+  if (helperEl) {
+    helperEl.style.display = visible ? "block" : "none";
+  }
+}
+
+function setDeepLinkVisible(visible) {
+  deepLinkEl.style.display = visible ? "block" : "none";
 }
 
 function parseTokensFromUrl() {
@@ -78,8 +90,11 @@ async function bootstrapRecoverySession(client, tokens) {
 }
 
 async function initialize() {
+  setFormVisible(false);
+  setDeepLinkVisible(false);
   submitEl.disabled = true;
   clearStatus();
+  showStatus("ok", "Checking reset link...");
 
   let client;
   try {
@@ -94,10 +109,10 @@ async function initialize() {
 
     const tokens = parseTokensFromUrl();
     await bootstrapRecoverySession(client, tokens);
+    setFormVisible(true);
     submitEl.disabled = false;
-    showStatus("ok", "Secure session is ready. You can set your new password.");
+    showStatus("ok", "Reset link is valid. You can set your new password.");
   } catch (error) {
-    console.error("Reset initialization failed:", error);
     showStatus("error", "Reset link invalid or expired. Request a new reset email.");
     return;
   }
@@ -124,22 +139,26 @@ async function initialize() {
 
     submitEl.disabled = true;
     submitEl.textContent = "Updating...";
+    let updated = false;
 
     try {
       const { error } = await client.auth.updateUser({ password });
       if (error) throw error;
+      updated = true;
 
-      showStatus("ok", "Password updated successfully. You can now sign in.");
-      deepLinkEl.style.display = "block";
+      showStatus("ok", "Password updated successfully. Open Brum App and sign in.");
+      setFormVisible(false);
+      setDeepLinkVisible(true);
       formEl.reset();
 
       await client.auth.signOut();
     } catch (error) {
-      console.error("Password update failed:", error);
       showStatus("error", error?.message || "Failed to update password.");
     } finally {
-      submitEl.disabled = false;
-      submitEl.textContent = "Update Password";
+      if (!updated) {
+        submitEl.disabled = false;
+        submitEl.textContent = "Update Password";
+      }
     }
   });
 }
