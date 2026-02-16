@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brum App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #edf1ff;
+        --surface: #ffffff;
+        --surface-soft: #f5f7ff;
+        --ink: #1f2340;
+        --muted: #5d6388;
+        --line: #d7def8;
+        --brand: #4f46e5;
+        --brand-dark: #4338ca;
+        --accent: #60a5fa;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: 'Manrope', sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(1000px 500px at 5% -20%, #dbe5ff 0%, transparent 55%),
+          radial-gradient(700px 340px at 95% 0%, #d2dcff 0%, transparent 55%),
+          var(--bg);
+      }
+
+      .site {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 20px 16px 36px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+      }
+
+      .brand img {
+        width: 34px;
+        height: 34px;
+      }
+
+      .pill {
+        font-size: 12px;
+        font-weight: 700;
+        color: #2f3da6;
+        background: #e7ebff;
+        border: 1px solid #cfd8ff;
+        padding: 7px 10px;
+        border-radius: 999px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 18px;
+        align-items: stretch;
+      }
+
+      .hero-card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 28px;
+        box-shadow: 0 20px 45px rgba(25, 20, 10, 0.08);
+      }
+
+      .hero h1 {
+        margin: 0;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(32px, 5vw, 58px);
+        line-height: 1.03;
+        max-width: 12ch;
+      }
+
+      .hero p {
+        margin: 16px 0 0;
+        color: var(--muted);
+        font-size: clamp(15px, 2vw, 18px);
+        line-height: 1.55;
+        max-width: 44ch;
+      }
+
+      .cta {
+        margin-top: 22px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        border: 0;
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-size: 14px;
+        font-weight: 800;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition:
+          transform 0.18s ease,
+          box-shadow 0.18s ease,
+          background 0.18s ease;
+      }
+
+      .btn.primary {
+        color: #fff;
+        background: var(--brand);
+        box-shadow: 0 10px 24px rgba(22, 106, 91, 0.28);
+      }
+
+      .btn.primary:hover {
+        background: var(--brand-dark);
+        transform: translateY(-1px);
+      }
+
+      .btn.secondary {
+        color: var(--ink);
+        border: 1px solid var(--line);
+        background: var(--surface-soft);
+      }
+
+      .btn.secondary:hover {
+        transform: translateY(-1px);
+      }
+
+      .hero-visual {
+        background: linear-gradient(175deg, #ffffff, #f5f7ff);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 14px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-visual::before {
+        content: '';
+        position: absolute;
+        inset: -40% auto auto -25%;
+        width: 320px;
+        height: 320px;
+        border-radius: 999px;
+        background: radial-gradient(
+          circle,
+          rgba(96, 165, 250, 0.28),
+          transparent 65%
+        );
+      }
+
+      .hero-visual::after {
+        content: '';
+        position: absolute;
+        inset: auto -22% -34% auto;
+        width: 320px;
+        height: 320px;
+        border-radius: 999px;
+        background: radial-gradient(
+          circle,
+          rgba(79, 70, 229, 0.25),
+          transparent 60%
+        );
+      }
+
+      .preview-wrap {
+        position: relative;
+        z-index: 1;
+        min-height: 320px;
+        display: grid;
+        place-items: center;
+        animation: floaty 4.5s ease-in-out infinite;
+      }
+
+      .preview-wrap img {
+        width: 100%;
+        max-width: 360px;
+      }
+
+      .stats {
+        margin-top: 16px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .stat {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 14px;
+      }
+
+      .stat strong {
+        font-family: 'Space Grotesk', sans-serif;
+        display: block;
+        font-size: 22px;
+      }
+
+      .stat span {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .section {
+        margin-top: 18px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 20px;
+      }
+
+      .section h2 {
+        margin: 0;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 24px;
+      }
+
+      .feature-grid {
+        margin-top: 14px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .feature {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--surface-soft);
+        padding: 14px;
+      }
+
+      .feature .icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+
+      .feature:nth-child(1) .icon {
+        background: #e6eeff;
+      }
+
+      .feature:nth-child(2) .icon {
+        background: #dfe8ff;
+      }
+
+      .feature:nth-child(3) .icon {
+        background: #edf1ff;
+      }
+
+      .feature h3 {
+        margin: 0 0 6px;
+        font-size: 16px;
+      }
+
+      .feature p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .foot {
+        margin-top: 16px;
+        font-size: 13px;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+
+      .js .reveal {
+        opacity: 0;
+        transform: translateY(12px);
+        transition:
+          opacity 0.45s ease,
+          transform 0.45s ease;
+      }
+
+      .js .reveal.in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @keyframes floaty {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+
+      @media (max-width: 920px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+
+        .feature-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .stats {
+          grid-template-columns: 1fr;
+        }
+
+        .site {
+          padding-top: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="site">
+      <header class="topbar reveal">
+        <div class="brand">
+          <!-- <img src="./assets/logo.png" alt="Brum logo" /> -->
+          Brum App
+        </div>
+        <div class="pill">Smart Expiration Tracker</div>
+      </header>
+
+      <section class="hero">
+        <article class="hero-card reveal">
+          <h1>Never miss an important expiration date again.</h1>
+          <p>
+            Brum App keeps your IDs, documents and policies organized with clear
+            reminders so you can stay ahead without stress.
+          </p>
+          <div class="cta">
+            <a class="btn primary" href="mobile://login">Open App</a>
+            <a class="btn secondary" href="#features">See Features</a>
+          </div>
+        </article>
+
+        <aside class="hero-visual reveal">
+          <div class="preview-wrap">
+            <img src="./assets/brum-preview.svg" alt="Brum App preview" />
+          </div>
+        </aside>
+      </section>
+
+      <section class="stats">
+        <article class="stat reveal">
+          <strong>Fast</strong>
+          <span>Add and review items in seconds</span>
+        </article>
+        <article class="stat reveal">
+          <strong>Private</strong>
+          <span>Your account is protected with Supabase Auth</span>
+        </article>
+        <article class="stat reveal">
+          <strong>Reliable</strong>
+          <span>Timely alerts before expiration dates</span>
+        </article>
+      </section>
+
+      <section class="section reveal" id="features">
+        <h2>Designed for real life</h2>
+        <div class="feature-grid">
+          <article class="feature">
+            <div class="icon">AL</div>
+            <h3>Clear Reminders</h3>
+            <p>Track upcoming dates and reduce the risk of missing renewals.</p>
+          </article>
+          <article class="feature">
+            <div class="icon">DB</div>
+            <h3>Simple Dashboard</h3>
+            <p>
+              Keep documents in one place with a clean overview and quick edit
+              actions.
+            </p>
+          </article>
+          <article class="feature">
+            <div class="icon">SC</div>
+            <h3>Secure Access</h3>
+            <p>
+              Modern authentication flows for signup, recovery, and password
+              updates.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <footer class="foot reveal">
+        Brum App - <span id="year"></span> • 
+        <a href="privacy.html" style="color: inherit; text-decoration: none;">Privacy Policy</a> • 
+        <a href="delete-account.html" style="color: inherit; text-decoration: none;">Delete Account</a>
+      </footer>
+    </div>
+
+    <script type="module" src="./index.js"></script>
+  </body>
+</html>
